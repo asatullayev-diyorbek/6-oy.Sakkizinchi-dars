@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1 class="text-center mt-5">{{ title }}</h1>
+    <h5 class="text-center mt-2">
+        {{ message }}
+    </h5>
+    <div class="container text-center mt-5 d-flex justify-content-center">
+        <form style="width: 400px" action="{% url 'timetable' %}" method="post">
+            {% csrf_token %}
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="class_id">Sinf:</label>
+                <select required name="class_id" id="class_id" class="form-select">
+                    {% for class in classes %}
+                        <option value="{{ class.id }}">{{ class.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-outline mb-4">
+                <label class="form-label" for="subject_id">Fan:</label>
+                <select required name="subject_id" id="subject_id" class="form-select">
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}">{{ subject.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-inline mb-4">
+                <label class="form-label" for="teacher_id">O'qituvchi:</label>
+                <select required name="teacher_id" id="teacher_id" class="form-select">
+                    {% for teacher in teachers %}
+                        <option value="{{ teacher.id }}">{{ teacher.first_name }} {{ teacher.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div  class="form-inline mb-4">
+                <label class="form-label" for="day_of_week">Hafta kuni:</label>
+                <input required name="day_of_week" type="text" id="day_of_week" class="form-control" />
+            </div>
+            
+            <div class="form-inline mb-4">
+                <label class="form-label" for="start_time">Boshlanish vaqti:</label>
+                <input required name="start_time" type="time" id="start_time" class="form-control" />
+            </div>
+            
+            <div class="form-inline mb-4">
+                <label class="form-label" for="end_time">Tugash vaqti:</label>
+                <input required name="end_time" type="time" id="end_time" class="form-control" />
+            </div>
+
+
+            <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Yuborish</button>
+        </form>
+    </div>
+
+    <div class="container mt-5">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>#</th>
+                    <th>Sinf</th>
+                    <th>Fan</th>
+                    <th>O'qituvchi</th>
+                    <th>Hafta kuni</th>
+                    <th>Boshlanish vaqti</th>
+                    <th>Tugash vaqti</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for timetable in timetables %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ timetable.class_id.name }}</td>
+                        <td>{{ timetable.subject_id.name }}</td>
+                        <td>{{ timetable.teacher_id.name }}</td>
+                        <td>{{ timetable.day_of_week }}</td>
+                        <td>{{ timetable.start_time }}</td>
+                        <td>{{ timetable.end_time }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+{% endblock %}

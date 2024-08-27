@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1 class="text-center mt-5">{{ title }}</h1>
+    <h5 class="text-center mt-2">
+        {{ message }}
+    </h5>
+    <div class="container text-center mt-5 d-flex justify-content-center">
+        <form  style="width: 400px" action="{% url 'teacher' %}" method="post">
+            {% csrf_token %}
+            <div class="row mb-4">
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline">
+                        <input required name="first_name" type="text" id="first_name" class="form-control"/>
+                        <label class="form-label" for="first_name">Ism:</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline">
+                        <input required name="last_name" type="text" id="last_name" class="form-control"/>
+                        <label class="form-label" for="last_name">Familiya:</label>
+                    </div>
+                </div>
+            </div>
+
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input required name="email" type="email" id="email" class="form-control"/>
+                <label class="form-label" for="email">Email:</label>
+            </div>
+
+            <!-- Text input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input required name="phone_number" type="text" id="phone_number" class="form-control"/>
+                <label class="form-label" for="phone_number">Telefon raqami:</label>
+            </div>
+
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="school">Maktabni tanlang:</label>
+                <select name="school" id="school">
+                    {% for school in schools %}
+                        <option value="{{ school.id }}">{{ school.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Submit button -->
+            <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Yuborish</button>
+        </form>
+    </div>
+
+    <div class="container text-center mt-5">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>#</th>
+                    <th>Ism</th>
+                    <th>Familiya</th>
+                    <th>Email</th>
+                    <th>Telefon raqami</th>
+                    <th>Maktabi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                    <tr>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ forloop.counter }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ teacher.first_name }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ teacher.last_name }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ teacher.email }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ teacher.phone_number }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ teacher.school }}
+                            </p>
+                        </td>
+                    </tr>	
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

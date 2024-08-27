@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1 class="text-center mt-5">{{ title }}</h1>
+    <h5 class="text-center mt-2">
+        {{ message }}
+    </h5>
+    <div class="container text-center mt-5 d-flex justify-content-center">
+        <form style="width: 400px" action="{% url 'parent_guardian' %}" method="post">
+            {% csrf_token %}
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input required name="first_name" type="text" id="first_name" class="form-control"/>
+                <label class="form-label" for="first_name">Ism:</label>
+            </div>
+    
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input required name="last_name" type="text" id="last_name" class="form-control"/>
+                <label class="form-label" for="last_name">Familiya:</label>
+            </div>
+    
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input required name="relationship" type="text" id="relationship" class="form-control"/>
+                <label class="form-label" for="relationship">Bog'liqlik (Ota, Ona, Vasiy):</label>
+            </div>
+    
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input required name="phone_number" type="text" id="phone_number" class="form-control"/>
+                <label class="form-label" for="phone_number">Telefon raqami:</label>
+            </div>
+    
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input required name="email" type="email" id="email" class="form-control"/>
+                <label class="form-label" for="email">Email:</label>
+            </div>
+    
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="student">O'quvchini tanlang:</label>
+                <select name="student" id="student" class="form-select">
+                    {% for student in students %}
+                        <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <button type="submit" class="btn btn-primary btn-block mb-4">Yuborish</button>
+        </form>
+    </div>
+
+
+    <div class="container text-center mt-5">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>#</th>
+                    <th>Ismi</th>
+                    <th>Familiyasi</th>
+                    <th>Aloqadorligi</th>
+                    <th>O'quvchi</th>
+                    <th>Telefon raqami</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for guardian in guardians %}
+                    <tr>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ forloop.counter }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ guardian.first_name }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ guardian.last_name }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ guardian.relationship }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ guardian.student }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ guardian.phone_number }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ guardian.email }}
+                            </p>
+                        </td>
+                    </tr>    
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1 class="text-center mt-5">{{ title }}</h1>
+    <h5 class="text-center mt-2">
+        {{ message }}
+    </h5>
+    <div class="container text-center mt-5 d-flex justify-content-center">
+        <form style="width: 400px" action="{% url 'exam' %}" method="post">
+            {% csrf_token %}
+            <div class="form-inline mb-4">
+                <label class="form-label" for="name">Imtihon nomi:</label>
+                <input required name="name" type="text" id="name" class="form-control"/>
+            </div>
+    
+            <div class="form-inline mb-4">
+                <label class="form-label" for="exam_date">Imtihon sanasi:</label>
+                <input required name="exam_date" type="date" id="exam_date" class="form-control"/>
+            </div>
+    
+            <div class="form-inline mb-4">
+                <label class="form-label" for="subject">Fanni tanlang:</label>
+                <select name="subject" id="subject" class="form-select">
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}">{{ subject.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <button type="submit" class="btn btn-primary btn-block mb-4">Yuborish</button>
+        </form>
+    </div>
+    
+    <div class="container text-center mt-5">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>#</th>
+                    <th>Imtihon nomi</th>
+                    <th>Fan</th>
+                    <th>Sanasi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exam in exams %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ exam.name }}</td>
+                        <td>{{ exam.subject.name }}</td>
+                        <td>{{ exam.exam_date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1 class="text-center mt-5">{{ title }}</h1>
+    <h5 class="text-center mt-2">
+        {{ message }}
+    </h5>
+    <div class="container text-center mt-5 d-flex justify-content-center">
+        <form style="width: 400px" action="{% url 'course' %}" method="post">
+            {% csrf_token %}
+            <div class="row mb-4">
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline">
+                        <input required name="name" type="text" id="name" class="form-control"/>
+                        <label class="form-label" for="name">Kurs nomi:</label>
+                    </div>
+                </div>
+            </div>
+    
+            <div data-mdb-input-init class="form-outline mb-4">
+                <textarea name="description" id="description" class="form-control"></textarea>
+                <label class="form-label" for="description">Tavsif:</label>
+            </div>
+    
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input required name="credits" type="number" id="credits" class="form-control"/>
+                <label class="form-label" for="credits">Kreditlar soni:</label>
+            </div>
+    
+            <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Yuborish</button>
+        </form>
+    </div>
+
+    <div class="container mt-5">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>#</th>
+                    <th>Kurs nomi</th>
+                    <th>Tavsif</th>
+                    <th>Kreditlar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.description }}</td>
+                        <td>{{ course.credits }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

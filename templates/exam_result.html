@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1 class="text-center mt-5">{{ title }}</h1>
+    <h5 class="text-center mt-2">
+        {{ message }}
+    </h5>
+    <div class="container text-center mt-5 d-flex justify-content-center">
+        <form style="width: 400px" action="{% url 'exam_result' %}" method="post">
+            {% csrf_token %}
+            
+            <div class="form-inline mb-4">
+                <label class="form-label" for="exam">Imtihonni tanlang:</label>
+                <select name="exam" id="exam" class="form-select">
+                    {% for exam in exams %}
+                        <option value="{{ exam.id }}">{{ exam.name }} - {{ exam.subject.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div class="form-inline mb-4">
+                <label class="form-label" for="student">O'quvchini tanlang:</label>
+                <select name="student" id="student" class="form-select">
+                    {% for student in students %}
+                        <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div class="form-inline mb-4">
+                <label class="form-label" for="marks_obtained">Olingan ballar:</label>
+                <input required name="marks_obtained" type="number" id="marks_obtained" class="form-control"/>
+            </div>
+    
+            <div class="form-inline mb-4">
+                <label class="form-label" for="grade">Bahoni kiriting:</label>
+                <input required name="grade" type="text" id="grade" class="form-control"/>
+            </div>
+    
+            <button type="submit" class="btn btn-primary btn-block mb-4">Yuborish</button>
+        </form>
+    </div>
+    
+    <div class="container text-center mt-5">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>#</th>
+                    <th>O'quvchi</th>
+                    <th>Imtihon</th>
+                    <th>Olingan ballar</th>
+                    <th>Baho</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in exam_results %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ result.student.first_name }} {{ result.student.last_name }}</td>
+                        <td>{{ result.exam.name }}</td>
+                        <td>{{ result.marks_obtained }}</td>
+                        <td>{{ result.grade }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

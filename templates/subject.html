@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1 class="text-center mt-5">{{ title }}</h1>
+    <h5 class="text-center mt-2">
+        {{ message }}
+    </h5>
+    <div class="container text-center mt-5 d-flex justify-content-center">
+        <form style="width: 400px" action="{% url 'subject' %}" method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                <div data-mdb-input-init class="form-outline">
+                    <input required name="name" type="text" id="subject_name" class="form-control"/>
+                    <label class="form-label" for="subject_name">Fan nomi:</label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label" for="class_id">Sinfni tanlang:</label>
+                <select name="class_id" id="class_id" class="form-select">
+                    {% for class in classes %}
+                        <option value="{{ class.id }}">{{ class.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label" for="teacher">O'qituvchini tanlang:</label>
+                <select name="teacher" id="teacher" class="form-select">
+                    {% for teacher in teachers %}
+                        <option value="{{ teacher.id }}">{{ teacher.first_name }} {{ teacher.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Submit button -->
+            <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Yuborish</button>
+        </form>
+    </div>
+
+
+    <div class="container text-center mt-5">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>#</th>
+                    <th>Nomi</th>
+                    <th>Sinf</th>
+                    <th>O'qituvchi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subject in subjects %}
+                    <tr>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ forloop.counter }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ subject.name }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ subject.class_id.name }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                {{ subject.teacher.first_name }} {{ subject.teacher.last_name }}
+                            </p>
+                        </td>
+                    </tr>	
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
